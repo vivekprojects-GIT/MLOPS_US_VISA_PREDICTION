@@ -1,6 +1,5 @@
 from pathlib import Path
 import os
-from stat import FILE_ATTRIBUTE_DIRECTORY
 
 Project_Name = "us_visa"
 
@@ -33,24 +32,22 @@ list_of_files = [
     "setup.py",
     "config/model.yaml",
     "config/schema.yaml",
-
-
 ]
 
-
 for filepath in list_of_files:
-    filepath = Path(filepath)
-    filedir,filepath = os.path.split(filepath)
+    # Create a Path object
+    path = Path(filepath)
+    
+    # Get the directory part of the path
+    filedir = path.parent
+    
+    # Create the directory if it does not exist
     if filedir != "":
         os.makedirs(filedir, exist_ok=True)
-    if (not os.path.exists(filepath)) or (os.path.getsize(filepath) == 0):
-        with open(filepath, 'w') as f:
+    
+    # Create the file if it does not exist or is empty
+    if not path.exists() or path.stat().st_size == 0:
+        with open(path, 'w') as f:
             pass
     else:
-        print(f"File {filepath} already exists.")
-
-
-
-
-
-
+        print(f"File {path} already exists.")
